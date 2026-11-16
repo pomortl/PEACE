@@ -5,5 +5,5 @@ score one run from its plan and its flight log. Nothing in this package needs RO
 
 Run the tests from the repository root::
 
-    python -m pytest tests/redteam
+    pytest tests/redteam
 """
