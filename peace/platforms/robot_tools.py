@@ -187,14 +187,16 @@ class RobotTools(ABC):
         self,
         x: float,
         y: float,
-        z: float,
+        z: Optional[float] = None,
         yaw: Optional[float] = None,
         tolerance: float = 0.5,
     ) -> str:
-        """Fly/drive to an absolute ENU position."""
+        """Fly/drive to an absolute ENU position (z=None keeps the current altitude)."""
         if not self._settings.action_enable_control:
             return "Control disabled (ACTION_ENABLE_CONTROL=False)"
         ego = self._ego_state_svc.get_ego_state()
+        if z is None:
+            z = ego.position_z
         yaw_rad = math.radians(yaw) if yaw is not None else math.radians(ego.orientation_yaw)
         return self._navigate_to_waypoint(x, y, z, yaw_rad, tolerance=tolerance,
                                           label=f"Moved to waypoint ({x:.1f},{y:.1f},{z:.1f})m")

@@ -354,7 +354,8 @@ class UAVTools(RobotTools):
         msg.header = Header()
         msg.header.stamp = self._node.get_clock().now().to_msg()
         msg.header.frame_id = "map"
-        msg.pose.position = Point(x=x, y=y, z=z)
+        # The LLM may emit integers; a non-float aborts the process in rclpy.
+        msg.pose.position = Point(x=float(x), y=float(y), z=float(z))
         msg.pose.orientation = Quaternion(
             x=0.0,
             y=0.0,
